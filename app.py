@@ -261,13 +261,13 @@ class FBAutoPosterApp(ctk.CTk):
                             file_input.set_input_files(valid_image_paths)
 
                         # Даємо час Facebook провантажити та прорендерити прев'ю фото
-                        wait_time = 6000 + (len(valid_image_paths) * 2500)
+                        wait_time = len(valid_image_paths) * 2500
                         self.log("Чекаємо завантаження прев'ю фото у FB...")
                         page.wait_for_timeout(wait_time)
 
                     if post_text:
                         self.log("Вводимо текст...")
-                        page.keyboard.type(post_text, delay=40)
+                        page.keyboard.insert_text(post_text)
                         page.wait_for_timeout(1000)
 
                     self.log("Публікуємо...")
@@ -285,11 +285,6 @@ class FBAutoPosterApp(ctk.CTk):
                     self.log(
                         f"❌ ПОМИЛКА під час обробки {group_url}: {e}\nПродовжуємо публікацію в інші групи..."
                     )
-
-                if idx < len(groups):
-                    delay = random.randint(40, 60)
-                    self.log(f"Пауза {delay} секунд...")
-                    time.sleep(delay)
 
             browser.close()
             self.log("\nУсі публікації завершено!")
